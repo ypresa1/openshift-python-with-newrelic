@@ -22,17 +22,8 @@ COPY licenses /licenses
 #Needed EPEL for pip - not included with RHEL
 RUN rpm -ivh https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm
 
-### Add necessary Red Hat repos here
-RUN yum -y update-minimal --disablerepo "*" --enablerepo rhel-7-server-rpms --setopt=tsflags=nodocs \
-      --security --sec-severity=Important --sec-severity=Critical \
-# clean yum cache
-   yum clean all
-
 #Installing pip and python for the test script/agent
-RUN yum -y install python2-pip
-
-# upgrade pip
-RUN pip install --upgrade pip
+RUN yum update && yum install python2-pip
 
 #The INI file - make sure you put your license in here or it won't work!
 COPY newrelic.ini /
