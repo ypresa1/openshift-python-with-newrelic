@@ -1,5 +1,16 @@
 FROM registry.access.redhat.com/rhel7.3:latest
-MAINTAINER Red Hat Systems Engineering <refarch-feedback@redhat.com>
+MAINTAINER Vinod Vydier<vvydier@newrelic.com>
+
+### Add necessary Red Hat repos here
+RUN REPOLIST=rhel-7-server-rpms,rhel-7-server-optional-rpms \
+### Add java-jdk and packages to download and install newrelic and wildfly
+    INSTALL_PKGS="unzip wget curl tar" && \
+    yum -y update-minimal --disablerepo "*" --enablerepo rhel-7-server-rpms --setopt=tsflags=nodocs \
+      --security --sec-severity=Important --sec-severity=Critical && \
+    yum -y install --disablerepo "*" --enablerepo ${REPOLIST} --setopt=tsflags=nodocs ${INSTALL_PKGS} && \
+
+### clean yum cache
+    yum clean all
 
 ### Atomic/OpenShift Labels - https://github.com/projectatomic/ContainerApplicationGenericLabels
 LABEL name="newrelic-admin-rhel73/python-agent" \
@@ -23,13 +34,14 @@ COPY licenses /licenses
 RUN rpm -ivh https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm
 
 #Installing pip and python for the test script/agent
-RUN yum update && yum install python2-pip
+RUN yum -y install python2-pip
+RUN pip install --upgrade pip
 
 #The INI file - make sure you put your license in here or it won't work!
 COPY newrelic.ini /
 
 #Install the NewRelic Agent
-RUN pip install newrelic
+RUN pip install --upgrade pip && pip install newrelic
 
 #The agent needs to know where the INI file is
 ENV NEW_RELIC_CONFIG_FILE=/newrelic.ini
