@@ -12,7 +12,6 @@ RUN REPOLIST=rhel-7-server-rpms,rhel-7-server-optional-rpms \
 ### clean yum cache
     yum clean all
 
-### Atomic/OpenShift Labels - https://github.com/projectatomic/ContainerApplicationGenericLabels
 LABEL name="newrelic-admin-rhel73/python-agent" \
       maintainer="vvydier@newrelic.com" \
       vendor="NewRelic" \
