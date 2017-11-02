@@ -2,14 +2,15 @@ FROM registry.access.redhat.com/rhel7.3:latest
 MAINTAINER Vinod Vydier<vvydier@newrelic.com>
 
 ### Add necessary Red Hat repos here
-RUN REPOLIST=rhel-7-server-rpms,rhel-7-server-optional-rpms \
-### Add java-jdk and packages to download and install newrelic and wildfly
-    INSTALL_PKGS="unzip wget curl tar" && \
+RUN REPOLIST=rhel-7-server-rpms,rhel-7-server-optional-rpms,epel \
+### Add your package needs here
+    INSTALL_PKGS="python2-pip" && \
     yum -y update-minimal --disablerepo "*" --enablerepo rhel-7-server-rpms --setopt=tsflags=nodocs \
       --security --sec-severity=Important --sec-severity=Critical && \
+    curl -o epel-release-latest-7.noarch.rpm -SL https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm \
+      --retry 5 --retry-max-time 0 -C - && \
+    yum -y localinstall epel-release-latest-7.noarch.rpm && rm epel-release-latest-7.noarch.rpm && \
     yum -y install --disablerepo "*" --enablerepo ${REPOLIST} --setopt=tsflags=nodocs ${INSTALL_PKGS} && \
-
-### clean yum cache
     yum clean all
 
 LABEL name="newrelic-admin-rhel73/python-agent" \
@@ -28,13 +29,6 @@ COPY help.1 /
 ### add licenses to this directory
 RUN mkdir -p /licenses
 COPY licenses /licenses
-
-#Needed EPEL for pip - not included with RHEL
-RUN rpm -ivh https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm
-
-#Installing pip and python for the test script/agent
-RUN yum -y install python2-pip
-RUN pip install --upgrade pip
 
 #The INI file - make sure you put your license in here or it won't work!
 COPY newrelic.ini /
