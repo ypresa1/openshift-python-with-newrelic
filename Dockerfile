@@ -30,11 +30,12 @@ COPY help.1 /
 RUN mkdir -p /licenses
 COPY licenses /licenses
 
-#The INI file - make sure you put your license in here or it won't work!
-COPY newrelic.ini /
+### Licenese Key for Newrelic
+ARG NEW_RELIC_LICENSE_KEY='XXXXXXXXXXX'
 
 #Install the NewRelic Agent
 RUN pip install --upgrade pip && pip install newrelic
+RUN rm -rf newrelic.ini && newrelic-admin generate-config ${NEW_RELIC_LICENSE_KEY} newrelic.ini
 
 #The agent needs to know where the INI file is
 ENV NEW_RELIC_CONFIG_FILE=/newrelic.ini
