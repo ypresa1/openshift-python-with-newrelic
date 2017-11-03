@@ -14,7 +14,7 @@ After getting the above, then proceed with the below
 3. Download/clone this git repo
 4. Go to https://www.newrelic.com and obtain a license key.
 5. Build the Docker image wth your Newrelic license key `docker build --build-arg NEW_RELIC_LICENSE_KEY='abcd1234efgh5678ijkl9012mnop3456qrst7890uvwyz' -t newrelic-admin-rhel73/python-agent .`
-6 If you dont use your license key, the build will run succsesfully with the default `NEW_RELIC_LICENSE_KEY=XXXXXXXXXXX`, but no metrics will be sent to Newrelic. SO, please build the image with your Newrelic license key, before launching the container.
+6. If you dont use your license key, the build will run succsesfully with the default `NEW_RELIC_LICENSE_KEY=XXXXXXXXXXX`, but no metrics will be sent to Newrelic. So, please build the image with your Newrelic license key, before launching the container.
 7. Once the image is built, launch the container:
 * `docker run newrelic-admin-rhel73/python-agent`
 8. This will launch the container and send 5 test messages to your NewRelic account
