@@ -2,7 +2,7 @@ FROM registry.access.redhat.com/rhel7.3:latest
 MAINTAINER Vinod Vydier<vvydier@newrelic.com>
 
 ### Add necessary Red Hat repos here
-# RUN REPOLIST=rhel-7-server-rpms,rhel-7-server-optional-rpms,epel \
+RUN REPOLIST=rhel-7-server-rpms,rhel-7-server-optional-rpms,epel \
 ### Add your package needs here
     INSTALL_PKGS="python2-pip" && \
     yum -y update-minimal --disablerepo "*" --enablerepo rhel-7-server-rpms --setopt=tsflags=nodocs \
@@ -35,7 +35,7 @@ ARG NEW_RELIC_LICENSE_KEY='XXXXXXXXXXX'
 
 #Install the NewRelic Agent
 RUN pip install --upgrade pip && pip install newrelic
-RUN rm -rf newrelic.ini && newrelic-admin generate-config ${NEW_RELIC_LICENSE_KEY} newrelic.ini
+#RUN rm -rf newrelic.ini && newrelic-admin generate-config ${NEW_RELIC_LICENSE_KEY} newrelic.ini
 
 #The agent needs to know where the INI file is
 ENV NEW_RELIC_CONFIG_FILE=/newrelic.ini
