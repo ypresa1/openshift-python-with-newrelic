@@ -2,7 +2,7 @@ FROM registry.access.redhat.com/rhel7.3:latest
 MAINTAINER Vinod Vydier<vvydier@newrelic.com>
 
 ### Add necessary Red Hat repos here
-RUN REPOLIST=rhel-7-server-rpms,rhel-7-server-optional-rpms,epel \
+# RUN REPOLIST=rhel-7-server-rpms,rhel-7-server-optional-rpms,epel \
 ### Add your package needs here
     INSTALL_PKGS="python2-pip" && \
     yum -y update-minimal --disablerepo "*" --enablerepo rhel-7-server-rpms --setopt=tsflags=nodocs \
