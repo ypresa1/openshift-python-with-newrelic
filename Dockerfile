@@ -38,10 +38,10 @@ ARG NEW_RELIC_LICENSE_KEY='XXXXXXXXXXX'
 #RUN rm -rf newrelic.ini && newrelic-admin generate-config ${NEW_RELIC_LICENSE_KEY} newrelic.ini
 
 #The agent needs to know where the INI file is
-#ENV NEW_RELIC_CONFIG_FILE=/newrelic.ini
+ENV NEW_RELIC_CONFIG_FILE=/newrelic.ini
 
 #Script to run the Python Agent test 5 times to make sure you get a good reading in the web UI
-#COPY runit5times.py /
+COPY runit5times.py /
 
 #When you launch the container, it runs the script and then exits
-#ENTRYPOINT ./runit5times.py
+ENTRYPOINT ./runit5times.py
