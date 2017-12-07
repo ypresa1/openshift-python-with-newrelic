@@ -34,7 +34,7 @@ COPY licenses /licenses
 ARG NEW_RELIC_LICENSE_KEY='XXXXXXXXXXX'
 
 #Install the NewRelic Agent
-#RUN pip install --upgrade pip && pip install newrelic
+RUN pip install --upgrade pip && pip install newrelic
 #RUN rm -rf newrelic.ini && newrelic-admin generate-config ${NEW_RELIC_LICENSE_KEY} newrelic.ini
 
 #The agent needs to know where the INI file is
